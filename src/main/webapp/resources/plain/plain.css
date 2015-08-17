@@ -1,0 +1,58 @@
+.sample-window {
+width: 350px;
+padding: 5px;
+border: 2px solid #186db4;
+background-color: #fff;
+display: none;
+}
+.plainmodal-close {
+cursor: pointer;
+}
+.sample-window .plainmodal-close {
+display: inline-block;
+padding: 1px 3px;
+color: #fff;
+background-color: #224388;
+}
+.sample-window .plainmodal-close:hover {
+background-color: #1f99e2;
+}
+#demo {
+width: 450px;
+padding: 20px 40px;
+color: #000;
+background-color: #FCFCFC;
+border: 2px solid #186db4;
+border-radius: 10px;
+display: none;
+font-family: 'Georgia', serif;
+}
+#demo:after { /* clearfix */
+content: "";
+clear: both;
+display: block;
+}
+#demo p {
+font-size: 18px;
+}
+#demo .sample-head {
+margin: 0 0 15px;
+font-size: 36px;
+font-weight: bold;
+}
+#demo img {
+float: left;
+margin-right: 10px;
+box-shadow: none;
+}
+#demo .plainmodal-close {
+position: absolute;
+width: 45px;
+height: 45px;
+right: -15px;
+top: -15px;
+background: url('plainmodal-close.png') no-repeat;
+}
+#demo .plainmodal-close:hover {
+background-position: -45px 0;
+}
