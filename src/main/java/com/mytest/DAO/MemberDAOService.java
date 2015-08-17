@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.mytest.DTO.MemberDTO;
-import com.mytest.controller.HomeController;
 
 //Service 클래스를 Repository로 등록함으로서 빈(bean) 클래스로 사용하능하게한다. 
 
@@ -39,8 +38,8 @@ public class MemberDAOService implements MemberDAO {
 	}
 
 	@Override
-	public String getMemberEmail(String email) {
-		//db에서 email로 체크하는부분
+	public String getMemberFb_id(String fb_id) {
+		//db에서 fb_id로 체크하는부분
 		ArrayList<MemberDTO> result = new ArrayList<MemberDTO>();
 		// sqlSession을 통하여 매핑한다.
 		logger.info("MemberDAOService.java");
@@ -48,12 +47,12 @@ public class MemberDAOService implements MemberDAO {
 
 		// getMember()의 메소드명과 mapper.mxl과 id는 동일해야한다.
 
-		result = memberMapper.getMemberEmail(email);
+		result = memberMapper.getMemberFb_id(fb_id);
 		
 		if (result.size() == 0)
 			return "";
 		else
-			return result.get(0).get_email();
+			return result.get(0).get_fb_id();
 
 	}
 

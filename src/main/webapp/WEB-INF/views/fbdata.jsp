@@ -1,5 +1,4 @@
-<p><%@ page language="java" contentType="text/html; charset=EUC-KR"
-		pageEncoding="EUC-KR"%>
+ï»¿<p>
 	<%@ page import="org.apache.commons.lang3.StringUtils"%>
 	<%@ page import="org.apache.http.impl.client.BasicResponseHandler"%>
 	<%@ page import="org.apache.http.impl.client.DefaultHttpClient"%>
@@ -14,9 +13,10 @@
 	<%@ page import="java.io.*"%>
 	<%@ page import="org.json.*"%>
 	<%@ page import="java.text.ParseException"%>
+	<%@ page import="java.util.HashMap"%>
 	<%@ page import="java.nio.charset.StandardCharsets"%>
 	<%@page import="org.apache.log4j.*"%>
-	<%!static Logger logger = Logger.getLogger("fbdata.jsp"); //log4j¸¦ À§ÇØ%>
+	<%!static Logger logger = Logger.getLogger("fbdata.jsp"); %>
 	<%
 		String appKey = "551330758343154";
 		String appSecret = "87eea895171903c9f7c360ee7373aa8e";
@@ -47,15 +47,14 @@
 
 			HttpGet get2 = new HttpGet(
 					"https://graph.facebook.com/me?access_token="
-							+ accesstoken);
+							+ accesstoken + "&locale=ko_KR");
 
 			DefaultHttpClient http2 = new DefaultHttpClient();
 			result2 = http2.execute(get2, new BasicResponseHandler());
 			session.setAttribute("fbtoken", accesstoken);
-			
+
 			logger.info("result2 = " + result2);
-			
-			
+
 		}
 		String jsonData = "";
 
@@ -79,9 +78,14 @@
 			}
 		}
 		JSONObject json = new JSONObject(jsonData);
-		session.setAttribute("session_id", json.getString("email"));
-		session.setAttribute("session_fb_id", json.getString("id"));
-		String email = json.getString("email");
+		HashMap<String , String> map = new HashMap<String, String>();
+		//map.put("email",json.getString("email"));
+		map.put("fb_id",json.getString("id"));
+		map.put("ko_name",json.getString("name"));
+		map.put("gender",json.getString("gender"));
+		session.setAttribute("session_map", map);
+		//String email = json.getString("email");
+		String fb_id = json.getString("id");
 		String name = json.getString("name");
 		String gender = json.getString("gender");
 	%>
@@ -95,15 +99,13 @@
 <body>
 	<form name="sendForm" method="post">
 		<input type="hidden" name="name" value="<%=name%>"> <input
-			type="hidden" name="email" value="<%=email%>"> <input
+			type="hidden" name="fb_id" value="<%=fb_id%>"> <input
 			type="hidden" name="gender" value="<%=gender%>">
 	</form>
 	<script type="text/javascript">
-		
-		document.sendForm.action = "http://localhost:8080/test/main.do";
+		document.sendForm.action = "http://localhost:8080/test/team.do";
 		document.sendForm.submit();
 
-		//window.open("about:blank", "_self").close();
 	</script>
 
 </body>

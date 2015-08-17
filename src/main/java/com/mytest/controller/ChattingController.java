@@ -1,15 +1,16 @@
 package com.mytest.controller;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Handles requests for the application home page.
@@ -23,34 +24,25 @@ public class ChattingController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/chat.do", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome chat! The client locale is {}.", locale);
-
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
-				DateFormat.LONG, locale);
-
-		String formattedDate = dateFormat.format(date);
-
-		model.addAttribute("serverTime", formattedDate);
-
-		return "chat";
+	@RequestMapping(value = "/chat.do", method = RequestMethod.POST)
+	public ModelAndView home(HttpServletRequest request, HttpSession session) {
+		logger.info("Welcome chat! The client locale is {}.");
+		ModelAndView result = new ModelAndView();
+		// logger.info("session_id_chat = " + chat_session);
+		HashMap<String,String> map = new HashMap<String,String>();
+		String session_fb_id = (String)request.getParameter("session_fb_id");
+		String session_ko_name = (String)request.getParameter("session_ko_name");
+		String session_gender = (String)request.getParameter("session_gender");
+		String session_team = (String)request.getParameter("session_team");
+		String session_team_PK = (String)request.getParameter("session_team_PK");
+		map.put("session_fb_id", session_fb_id);
+		map.put("session_ko_name", session_ko_name);
+		map.put("session_gender", session_gender);
+		map.put("session_team", session_team);
+		map.put("session_team_PK", session_team_PK);
+		session.setAttribute("map", map);
+		result.setViewName("chat");
+		return result;
 	}
-	@RequestMapping(value = "/chat2.do", method = RequestMethod.GET)
-	public String home2(Locale locale, Model model) {
-		logger.info("Welcome chat2! The client locale is {}.", locale);
-
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
-				DateFormat.LONG, locale);
-
-		String formattedDate = dateFormat.format(date);
-
-		model.addAttribute("serverTime", formattedDate);
-
-		return "chat2";
-	}
-
 
 }

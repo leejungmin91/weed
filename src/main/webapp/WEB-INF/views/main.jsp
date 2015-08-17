@@ -3,26 +3,40 @@
 <%@ page session="true"%>
 <%@ page import="java.net.URLEncoder "%>
 <%@page import="org.apache.log4j.*"%>
+<%@ page import="org.apache.http.impl.client.BasicResponseHandler"%>
+<%@ page import="org.apache.http.impl.client.DefaultHttpClient"%>
+<%@ page import="org.apache.http.client.methods.HttpGet"%>
+<%@ page import="org.apache.http.client.methods.HttpPost"%>
+<%@ page import="java.util.HashMap"%>
 <%!static Logger logger = Logger.getLogger("main.jsp"); //log4j를 위해%>
 
 <%
 	String accessToken = (String) session.getAttribute("fbtoken");
 	String logoutURL = "https://www.facebook.com/logout.php?next="
-			+ URLEncoder.encode("http://localhost:8080/test/home.do",
-					"UTF-8") + "&access_token=" + accessToken;
-	String session_fb_id = (String) session
-			.getAttribute("session_fb_id");
-	String session_id = (String) session.getAttribute("session_id");
-	logger.info("session_id = " + session_id);
-	if (session_id == null || session.equals("")) {
-%>
-<script>
-	alert("세션 ID가 없습니다.");
-</script>
-<%
-	response.sendRedirect("home.do");
+	+ URLEncoder.encode("http://localhost:8080/test/home.do",
+	"UTF-8") + "&access_token=" + accessToken;
+	HashMap<String , String> map = new HashMap<String, String>();
+	map = (HashMap)session.getAttribute("session_map");
+	session.setAttribute("session_map",map);
+	String session_fb_id;
+	String session_ko_name;
+	String session_gender;
+	//session.setAttribute("session_id_chat", session_id);
+
+	if (map == null || session.equals("")) {
+		
+		response.sendRedirect("home.do");
+		session_fb_id = null;
+		session_ko_name = null;
+		session_gender = null;
 	}
-	session.setMaxInactiveInterval(60 * 60);
+	else{
+	session.setMaxInactiveInterval(60 * 60);	
+	session_fb_id = map.get("fb_id");
+	session_ko_name = map.get("ko_name");
+	session_gender = map.get("gender");
+		
+	}
 %>
 <html lang="ko">
 <head>
@@ -64,15 +78,13 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="index.html">잡초</a>
+				<a class="navbar-brand" href="#">잡초</a>
 			</div>
 
 			<div
 				style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;">
 
-				<c:forEach var="member" items="${result}">
-					<td>${member.get_name()}</td>
-				</c:forEach>
+					<td>${name}</td>
 
 				&nbsp;님 환영합니다!&nbsp; <a href="#"
 					class="btn btn-danger square-btn-adjust" onClick="ulogout()">Logout</a>
@@ -92,9 +104,16 @@
 
 
 					<li><a class="active-menu" href="#"><i
-							class="fa fa-dashboard fa-3x"></i> Dashboard</a></li>
+							class="fa fa-dashboard fa-3x"></i> Profile</a></li>
 					<li><a href="#"><i class="fa fa-users fa-3x"></i> Team</a></li>
 
+					<li><a href="#" onClick="chat()"><i
+							class="fa fa-users fa-3x"></i> Chat</a></li>
+					<form name="sendForm" method="post" type="hidden">
+						<input type="hidden" name="session_fb_id" value="<%=session_fb_id%>">
+						<input type="hidden" name="session_ko_name" value="<%=session_ko_name%>">
+						<input type="hidden" name="session_gender" value="<%=session_gender%>">
+					</form>
 				</ul>
 
 			</div>
@@ -104,9 +123,10 @@
 		<div id="page-wrapper">
 			<div id="page-inner">
 				<div class="row">
-					<div class="col-md-12">
+					<%-- <div class="col-md-12">
 						<h3>File UPLOAD</h3>
-						<form action="fileup.do" method="post" enctype="multipart/form-data">
+						<form action="fileup.do" method="post"
+							enctype="multipart/form-data">
 							<input type="file" name="uploadfile" required="required">
 							<input type="submit" value="작성">
 
@@ -143,7 +163,7 @@
 						</fieldset>
 						</br> </br>
 
-					</div>
+					</div> --%>
 				</div>
 				<!-- /. ROW  -->
 				<hr />
@@ -224,12 +244,31 @@
 	<script type="text/javascript">
 	function ulogout() {
 		<%session.invalidate();%>
-		alert('UserLogout btn clicked');
-		window.location.href = '<%=logoutURL%>
-		'
+		//alert('UserLogout btn clicked');
+		window.location.href = "<%=logoutURL%>";
 		}
 	</script>
 
+	<script type="text/javascript">
+	function chat() {
+		
+
+			document.sendForm.action = "http://localhost:8080/test/chat.do";
+			document.sendForm.submit();
+			/* 			$.post("chat.do", {
+			 "session_email" : session_email,
+			 "session_fb_id" : session_fb_id,
+			 "session_ko_name" : session_ko_name,
+			 "session_gender" : session_gender
+			 }, function(data, status) {
+			 console.log("Data: " + data + "\nStatus: " + status);
+			 document.location.method ="post";
+			 document.location.action = "http://localhost:8080/test/chat.do";
+			 document.location.submit();
+			 }); */
+			//window.location.href = "http://localhost:8080/test/chat.do";
+		}
+	</script>
 
 
 </body>

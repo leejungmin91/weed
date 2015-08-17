@@ -40,7 +40,7 @@
 			<url>http://dl.bintray.com/vertx/downloads</url>
 		</pluginRepository>
 	</pluginRepositories>
-	
+
 
 	<dependencies>
 		<!-- Spring -->
@@ -245,15 +245,29 @@
 			<version>1.10</version>
 		</dependency>
 
-		<!-- mod socket.io -->
-
-
+		<!-- mongodb -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>2.11.0</version>
+		</dependency>
 
 		<dependency>
-			<groupId>com.nhncorp</groupId>
-			<artifactId>mod-socket-io</artifactId>
-			<version>1.0.2</version>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>1.2.0.RELEASE</version>
 		</dependency>
+
+
+			<!-- mod socket.io -->
+
+
+
+			<dependency>
+				<groupId>com.nhncorp</groupId>
+				<artifactId>mod-socket-io</artifactId>
+				<version>1.0.2</version>
+			</dependency>
 	</dependencies>
 	<build>
 		<plugins>
