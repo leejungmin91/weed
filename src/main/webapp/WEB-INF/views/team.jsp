@@ -155,6 +155,8 @@
 							Profile</a></li>
 					<li><a href="#" class="active-menu"><i
 							class="fa fa-users fa-3x"></i> Team</a></li>
+					<li><a href="#" onClick="chat()"><i
+							class="fa fa-users fa-3x"></i> Chat</a></li>
 
 					<!-- <li><a href="#" onClick="chat()"><i
 							class="fa fa-users fa-3x"></i> Chat</a></li> -->
@@ -350,7 +352,7 @@
 		<script type="text/javascript">
 			function chat() {
 
-				document.sendForm.action = "http://localhost:8080/test/teamcreater.do";
+				document.sendForm.action = "http://localhost:8080/test/chat.do";
 				document.sendForm.submit();
 			}
 		</script>

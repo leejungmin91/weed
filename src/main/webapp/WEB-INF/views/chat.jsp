@@ -266,31 +266,71 @@
 		src="http://localhost:8080/test/resources/bootstrap/home/js/jquery-1.11.1.js"></script>
 	<script src="http://localhost:8080/test/resources/js/socket.io.js"></script>
 	<!-- <script src="http://localhost:8080/test/resources/js/chat.js"></script> -->
+
 	<script>
+		/* function connect() {
+			socket = new SockJS('/chat');
+			stompClient = Stomp.over(socket);
+			stompClient.connect('', '', function(frame) {
+				whoami = frame.headers['user-name'];
+				console.log('Connected: ' + frame);
+				stompClient.subscribe('/user/queue/messages',
+						function(message) {
+							showMessage(JSON.parse(message.body));
+						});
+				stompClient.subscribe('/topic/active', function(activeMembers) {
+					showActive(activeMembers);
+				});
+			});
+		}
+		function showMessage(message) {
+			var chatWindowTarget = (message.recipient === whoami) ? message.sender
+					: message.recipient;
+			var chatContainer = getChatWindow(chatWindowTarget);
+			var chatWindow = chatContainer.children('.chat');
+			var userDisplay = $('<span>', {
+				class : (message.sender === whoami ? 'chat-sender'
+						: 'chat-recipient')
+			});
+			userDisplay.html(message.sender + ' says: ');
+			var messageDisplay = $('<span>');
+			messageDisplay.html(message.message);
+			$('#message').append(userDisplay).append(messageDisplay).append(
+					'<br/>');
+			chatWindow.animate({
+				scrollTop : chatWindow[0].scrollHeight
+			}, 1);
+			if (message.sender !== whoami) {
+				var sendingUser = $('#user-' + message.sender);
+				if (!sendingUser.hasClass('user-selected')
+						&& !sendingUser.hasClass('pending-messages')) {
+					sendingUser.append(newMessageIcon());
+					sendingUser.addClass('pending-messages');
+				}
+			}
+		} */
+		
 		$(document)
 				.ready(
 						function() {
-							
+
 							var socket = io.connect("http://localhost:8888");
-							
-			                 var roomname = "${map.get('session_team')}";  
-							 var username = "${map.get('session_ko_name')}";
-							 var roomPK = "${map.get('session_team_PK')}";
-			                 
-			                 
-			                // Server 로 접속 유저아이디 와 접속한 채팅방 이름을 전송 합니다.
-			                 socket.emit('join', { 
-			                	 //'username': username, 
-			                	 'roomname': roomname 
-			                	 });
-											
-							
+
+							var roomname = "${map.get('session_team')}";
+							var username = "${map.get('session_ko_name')}";
+							var roomPK = "${map.get('session_team_PK')}";
+
+							// Server 로 접속 유저아이디 와 접속한 채팅방 이름을 전송 합니다.
+							socket.emit('join', {
+								//'username': username, 
+								'roomname' : roomname
+							});
 
 							socket
 									.on(
 											'connection',
 											function(msg) {
-												
+
 												/* console.log("receive message :: "
 														+ msg.username + " : " + msg.msg); */
 												$('#message')
@@ -321,17 +361,18 @@
 												var msg = $("input[name=chat]")
 														.val();
 												$("input[name=chat]").val("");
-												
+
 												var time = new Date();
 												var totaltime = time.toString();
-												var date = time.toLocaleString();
+												var date = time
+														.toLocaleString();
 												socket
 														.emit(
 																'msg',
 																{
 																	userpic : "https://graph.facebook.com/${map.get('session_fb_id')}/picture",
 																	username : username,
-																	msg : msg ,
+																	msg : msg,
 																	reg_date_time : date,
 																	reg_date_total : totaltime,
 																	roomname : roomname,
@@ -341,6 +382,7 @@
 											});
 
 						});
+		
 	</script>
 </body>
 </html>
