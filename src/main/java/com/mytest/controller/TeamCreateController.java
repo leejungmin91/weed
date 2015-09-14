@@ -14,13 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mytest.DAO.RoomDAOImpl;
 import com.mytest.DAO.RoomUserDAOImpl;
-import com.mytest.DTO.RoomUser;
+import com.mytest.DTO.RoomDTO;
+import com.mytest.DTO.RoomUserDTO;
 
 @Controller
 public class TeamCreateController {
 	@Autowired
 	private RoomUserDAOImpl roomuserDAOImpl;
+	@Autowired
+	private RoomDAOImpl roomDAOImpl;
 
 	private GregorianCalendar calendar = new GregorianCalendar();
 
@@ -49,10 +53,30 @@ public class TeamCreateController {
 		final String Reg_Date = year + "년 " + month + "월 " + date + "일 "
 				+ sAmPm + " " + hour + "시 " + min + "분 " + sec + "초 ";
 
-		RoomUser roomuser = new RoomUser();
+		RoomUserDTO roomuser = new RoomUserDTO();
+		RoomDTO room = new RoomDTO();
 
 		if ((roomuserDAOImpl.getRoomUserDAOPK((String) request
-				.getParameter("roomPK")) != null)) {
+				.getParameter("roomPK")) == null)) {
+			logger.info("---------------------------->"+request
+					.getParameter("roomPK"));
+			roomuser.setRoomUserFb_id((String) request.getParameter("fb_id"));
+			roomuser.setRoomUserPK((String) request.getParameter("roomPK"));
+			roomuser.setRoomUserName((String) request.getParameter("roomname"));
+			roomuserDAOImpl.insert(roomuser);
+			room.setRoomName((String) request.getParameter("roomname"));
+			room.setRoomPK((String) request.getParameter("roomPK"));
+			room.setRoomReg_Date(Reg_Date);
+			roomDAOImpl.insert(room);
+			
+			logger.info("null insert complet");
+			ModelAndView result = new ModelAndView();
+			result.setViewName("team");
+			session.setAttribute("name", request.getParameter("name"));
+			return result;
+		} else {
+			
+			
 			if (((String) request.getParameter("roomPK"))
 					.equals((roomuserDAOImpl.getRoomUserDAOPK((String) request
 							.getParameter("roomPK")).getRoomUserPK()))) {
@@ -68,18 +92,6 @@ public class TeamCreateController {
 				result.setViewName("team");
 				return result;
 			}
-		} else {
-			roomuser.setRoomUserFb_id((String) request.getParameter("fb_id"));
-			roomuser.setUserReg_date(Reg_Date);
-			roomuser.setRoomUserPK((String) request.getParameter("roomPK"));
-			roomuser.setRoomUserName((String) request.getParameter("roomname"));
-			roomuserDAOImpl.insert(roomuser);
-			
-			logger.info("insert complet");
-			ModelAndView result = new ModelAndView();
-			result.setViewName("team");
-			session.setAttribute("name", request.getParameter("name"));
-			return result;
 		}
 
 	}

@@ -1,7 +1,7 @@
 package com.mytest.DAO;
 
 import com.mongodb.WriteResult;
-import com.mytest.DTO.User;
+import com.mytest.DTO.UserDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,32 +26,32 @@ public class UserDAOImpl implements UserDAO {
 			.getLogger(UserDAOImpl.class);
 
 	@Override
-	public User insert(User user) {
+	public UserDTO insert(UserDTO user) {
 		mongoTemplate.insert(user, COLLECTION_NAME);
 		return user;
 	}
 
 	@Override
-	public User getUserDAOName(String fb_id) {
+	public UserDTO getUserDAOName(String fb_id) {
 		Query query = new Query(Criteria.where("fb_id").is(fb_id));
-		return mongoTemplate.findOne(query, User.class, COLLECTION_NAME);
+		return mongoTemplate.findOne(query, UserDTO.class, COLLECTION_NAME);
 	}
 
 	@Override
-	public User getUserDAOFb_id(String fb_id) {
+	public UserDTO getUserDAOFb_id(String fb_id) {
 		Query query = new Query(Criteria.where("fb_id").is(fb_id));
 
-		return mongoTemplate.findOne(query, User.class, COLLECTION_NAME);
+		return mongoTemplate.findOne(query, UserDTO.class, COLLECTION_NAME);
 	}
 
 
 	@Override
-	public List<User> getUsers() {
-		return (List<User>) mongoTemplate.findAll(User.class);
+	public List<UserDTO> getUsers() {
+		return (List<UserDTO>) mongoTemplate.findAll(UserDTO.class);
 	}
 
 	@Override
-	public void deleteUser(User user) {
+	public void deleteUser(UserDTO user) {
 	}
 
 	@Override

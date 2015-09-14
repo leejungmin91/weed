@@ -1,26 +1,28 @@
 package com.mytest.DAO;
 
-import com.mytest.DTO.Chat;
+import com.mytest.DTO.ChatDTO;
 
 import java.util.List;
 
 public interface ChatDAO {
 
-  public Chat insert(Chat chat);
+  public ChatDTO insert(ChatDTO chat);
 
-  public List<Chat> getChats();
+  public List<ChatDTO> getChats();
 
-  public Chat getChatDAOContent(String content);
+  public ChatDTO getChatDAOContent(String content);
   
-  public Chat getChatDAOReg_Date(String reg_date);
+  public ChatDTO getChatDAOReg_Date(String reg_date);
   
-  public Chat getChatUserDAOName(String username);
+  public ChatDTO getChatUserDAOName(String username);
   
-  public Chat getChatRoomDAOName(String roomname);
+  public ChatDTO getChatRoomDAOName(String roomname);
   
-  public Chat getChatRoomDAOPK(String roomPK);
+  public ChatDTO getChatRoomDAOPK(String roomPK);
+  
+  public List<ChatDTO> getChats(String roomPK);
 
-  public void deleteChat(Chat chat);
+  public void deleteChat(ChatDTO chat);
 
-  public Chat updateChat(Chat chat);
+  public ChatDTO updateChat(ChatDTO chat);
 }

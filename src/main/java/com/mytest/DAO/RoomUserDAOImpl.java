@@ -12,9 +12,9 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.mongodb.WriteResult;
-import com.mytest.DTO.Room;
-import com.mytest.DTO.RoomUser;
-import com.mytest.DTO.User;
+import com.mytest.DTO.RoomDTO;
+import com.mytest.DTO.RoomUserDTO;
+import com.mytest.DTO.UserDTO;
 
 @Repository
 public class RoomUserDAOImpl implements RoomUserDAO {
@@ -28,47 +28,33 @@ public class RoomUserDAOImpl implements RoomUserDAO {
 			.getLogger(RoomUserDAOImpl.class);
 
 	@Override
-	public RoomUser insert(RoomUser roomuser) {
+	public RoomUserDTO insert(RoomUserDTO roomuser) {
 		mongoTemplate.insert(roomuser, COLLECTION_NAME);
 		return roomuser;
 	}
 
 	@Override
-	public RoomUser getRoomUserDAOReg_Date(String reg_date) {
-		Query query = new Query(Criteria.where("reg_date").is(reg_date));
-
-		return mongoTemplate.findOne(query, RoomUser.class, COLLECTION_NAME);
-	}
-
-	@Override
-	public RoomUser getRoomUserDAOFb_id(String fb_id) {
+	public RoomUserDTO getRoomUserDAOFb_id(String fb_id) {
 		Query query = new Query(Criteria.where("fb_id").is(fb_id));
 
-		return mongoTemplate.findOne(query, RoomUser.class, COLLECTION_NAME);
+		return mongoTemplate.findOne(query, RoomUserDTO.class, COLLECTION_NAME);
 	}
 
 	@Override
-	public RoomUser getRoomUserDAOPK(String fb_id) {
+	public RoomUserDTO getRoomUserDAOPK(String roomPK) {
+		Query query = new Query(Criteria.where("roomPK").is(roomPK));
+
+		return mongoTemplate.findOne(query, RoomUserDTO.class, COLLECTION_NAME);
+	}
+
+	@Override
+	public List<RoomUserDTO> getRoomUsers(String fb_id) {
 		Query query = new Query(Criteria.where("fb_id").is(fb_id));
-
-		return mongoTemplate.findOne(query, RoomUser.class, COLLECTION_NAME);
+		return (List<RoomUserDTO>) mongoTemplate.find(query,RoomUserDTO.class , COLLECTION_NAME);
 	}
 
 	@Override
-	public RoomUser getRoomUserDAOName(String fb_id) {
-		Query query = new Query(Criteria.where("fb_id").is(fb_id));
-
-		return mongoTemplate.findOne(query, RoomUser.class, COLLECTION_NAME);
-	}
-
-	@Override
-	public List<RoomUser> getRoomUsers(String fb_id) {
-		Query query = new Query(Criteria.where("fb_id").is(fb_id));
-		return (List<RoomUser>) mongoTemplate.find(query,RoomUser.class , COLLECTION_NAME);
-	}
-
-	@Override
-	public void deleteRoomUser(RoomUser user) {
+	public void deleteRoomUser(RoomUserDTO user) {
 	}
 
 	@Override

@@ -1,21 +1,21 @@
 package com.mytest.DAO;
 
 import com.mongodb.WriteResult;
-import com.mytest.DTO.User;
+import com.mytest.DTO.UserDTO;
 
 import java.util.List;
 
 public interface UserDAO {
 
-  public User insert(User user);
+  public UserDTO insert(UserDTO user);
 
-  public List<User> getUsers();
+  public List<UserDTO> getUsers();
 
-  public User getUserDAOName(String fb_id);
+  public UserDTO getUserDAOName(String fb_id);
   
-  public User getUserDAOFb_id(String fb_id);
+  public UserDTO getUserDAOFb_id(String fb_id);
   
-  public void deleteUser(User user);
+  public void deleteUser(UserDTO user);
 
   public WriteResult updateUser(String fb_id, String roomPK);
 }

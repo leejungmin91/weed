@@ -1,6 +1,7 @@
 package com.mytest.DAO;
 
-import com.mytest.DTO.Chat;
+import com.mytest.DTO.ChatDTO;
+import com.mytest.DTO.RoomUserDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,49 +24,54 @@ public class ChatDAOImpl implements ChatDAO {
   private static String COLLECTION_NAME = "jabcho_chat";
 
   @Override
-  public Chat insert(Chat chat) {
+  public ChatDTO insert(ChatDTO chat) {
 	logger.info("chat insert");
     mongoTemplate.insert(chat,COLLECTION_NAME);
     return chat;
   }
   @Override
-  public Chat getChatDAOReg_Date(String reg_date) {
+  public ChatDTO getChatDAOReg_Date(String reg_date) {
 	  Query query = new Query(Criteria.where("reg_date").is(reg_date));
-	  return mongoTemplate.findOne(query, Chat.class, COLLECTION_NAME);
+	  return mongoTemplate.findOne(query, ChatDTO.class, COLLECTION_NAME);
   }
 
   @Override
-  public Chat getChatDAOContent(String content) {
+  public ChatDTO getChatDAOContent(String content) {
 	Query query = new Query(Criteria.where("content").is(content));
-    return mongoTemplate.findOne(query, Chat.class, COLLECTION_NAME);
+    return mongoTemplate.findOne(query, ChatDTO.class, COLLECTION_NAME);
   }
   @Override
-  public Chat getChatUserDAOName(String username) {
+  public ChatDTO getChatUserDAOName(String username) {
 	  Query query = new Query(Criteria.where("username").is(username));
-	  return mongoTemplate.findOne(query, Chat.class, COLLECTION_NAME);
+	  return mongoTemplate.findOne(query, ChatDTO.class, COLLECTION_NAME);
   }
   @Override
-  public Chat getChatRoomDAOName(String roomname) {
+  public ChatDTO getChatRoomDAOName(String roomname) {
 	  Query query = new Query(Criteria.where("roomname").is(roomname));
-	  return mongoTemplate.findOne(query, Chat.class, COLLECTION_NAME);
+	  return mongoTemplate.findOne(query, ChatDTO.class, COLLECTION_NAME);
   }
   @Override
-  public Chat getChatRoomDAOPK(String roomPK) {
+  public ChatDTO getChatRoomDAOPK(String roomPK) {
 	  Query query = new Query(Criteria.where("roomPK").is(roomPK));
-	  return mongoTemplate.findOne(query, Chat.class, COLLECTION_NAME);
+	  return mongoTemplate.findOne(query, ChatDTO.class, COLLECTION_NAME);
+  }
+  @Override
+	public List<ChatDTO> getChats(String roomPK) {
+		Query query = new Query(Criteria.where("roomPK").is(roomPK));
+		return (List<ChatDTO>) mongoTemplate.find(query,ChatDTO.class , COLLECTION_NAME);
+	}
+
+  @Override
+  public List<ChatDTO> getChats() {
+    return (List<ChatDTO>) mongoTemplate.findAll(ChatDTO.class);
   }
 
   @Override
-  public List<Chat> getChats() {
-    return (List<Chat>) mongoTemplate.findAll(Chat.class);
+  public void deleteChat(ChatDTO chat) {
   }
 
   @Override
-  public void deleteChat(Chat chat) {
-  }
-
-  @Override
-  public Chat updateChat(Chat chat) {
+  public ChatDTO updateChat(ChatDTO chat) {
     return chat;
   }
 

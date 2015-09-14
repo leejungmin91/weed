@@ -2,15 +2,15 @@
 <%@ page contentType="text/html;charset=utf-8"%>
 <%@ page session="false"%>
 <%
-	String appKey 		= "551330758343154";
-	String appSecret 	= "87eea895171903c9f7c360ee7373aa8e";
+	String appKey = "551330758343154";
+	String appSecret = "87eea895171903c9f7c360ee7373aa8e";
 	//token get url
 	// https://graph.facebook.com/oauth/access_token?grant_type=client_credentials&client_id=551330758343154&client_secret=87eea895171903c9f7c360ee7373aa8e
 	// token = 551330758343154|6JJzDSrwInjIT5cs7xuy2cm-wtQ
-	
-	String url = "http://www.facebook.com/dialog/oauth?client_id="+
-		appKey+"&response_type=code&redirect_uri=http://localhost:8080/test/fbdata.do&scope=email&sdk=php-sdk-3.2.3&display=popup";
-	
+
+	String url = "http://www.facebook.com/dialog/oauth?client_id="
+			+ appKey
+			+ "&response_type=code&redirect_uri=http://localhost:8080/test/fbdata.do&scope=email&sdk=php-sdk-3.2.3&display=popup";
 %>
 <html lang="ko">
 <head>
@@ -71,11 +71,10 @@
 						<a href="main"> <i class="ion-ios-home-outline"></i></a> <span
 							class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown"> Login <span class="caret"></span>
-						</a> 
-						<!-- onClick="openW('<%=url%>','',600,350);" -->
+						</a> <!-- onClick="openW('<%=url%>','',600,350);" -->
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="#" style="font-size: 20px; color: #4374D9;"
-									onClick="facebookoauth();"><i 
+									onClick="facebookoauth();"><i
 										class="fa fa-facebook-square fa-lg"></i>&nbsp;&nbsp;Facebook
 										Login </a></li>
 								<li><a href="#" style="font-size: 20px; color: #4374D9;"><i
@@ -84,6 +83,9 @@
 								<li><a href="#" style="font-size: 20px; color: #4374D9;"><i
 										class="fa fa-google-plus-square fa-lg"></i>&nbsp;&nbsp;Google
 										Login </a></li>
+								<li><a href="#" onClick="testlogin()"
+									style="font-size: 20px; color: #4374D9;"><i
+										class="fa fa-user fa-fw"></i>&nbsp;&nbsp;Test Login </a></li>
 
 
 							</ul></span>
@@ -247,7 +249,12 @@
 		window.location.href = '<%=url%>'
 			
 	}
-</script>
+	function testlogin() {
+		
+		window.location.href = 'http://localhost:8080/test/testlogin.do'
+
+		}
+	</script>
 
 </body>
 </html>

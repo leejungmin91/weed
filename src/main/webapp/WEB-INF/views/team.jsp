@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=utf-8"%>
 <%@ page session="true"%>
 <%@ page import="java.net.URLEncoder "%>
-<%@page import="org.apache.log4j.*"%>
+<%@ page import="org.apache.log4j.*"%>
 <%@ page import="org.apache.http.impl.client.BasicResponseHandler"%>
 <%@ page import="org.apache.http.impl.client.DefaultHttpClient"%>
 <%@ page import="org.apache.http.client.methods.HttpGet"%>
@@ -10,13 +10,14 @@
 <%@ page import="java.util.HashMap"%>
 <%@ page import="org.springframework.beans.factory.annotation.Value"%>
 <%@ page import="org.springframework.beans.factory.annotation.Autowired"%>
-<%@ page import="com.mytest.DTO.RoomUser"%>
+<%@ page import="com.mytest.DTO.RoomUserDTO"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page
 	import="org.springframework.web.context.support.SpringBeanAutowiringSupport"%>
 <%@ page import="com.mytest.DAO.RoomUserDAOImpl"%>
 <%@ page import="com.mytest.DAO.UserDAOImpl"%>
+<%@ page import="com.mytest.DAO.RoomDAOImpl"%>
 <%!static Logger logger = Logger.getLogger("team.jsp"); //log4j를 위해%>
 <%!
     public void jspInit() 
@@ -28,6 +29,8 @@
     @Autowired
     private RoomUserDAOImpl roomuserDAOImpl;
     @Autowired
+    private RoomDAOImpl roomDAOImpl;
+    @Autowired
     private UserDAOImpl userDAOImpl;
 %>
 
@@ -38,34 +41,16 @@
 	"UTF-8") + "&access_token=" + accessToken;
 	HashMap<String , String> map = new HashMap<String, String>();
 	map = (HashMap)session.getAttribute("session_map");
-	session.setAttribute("session_map",map);
-	String session_fb_id;
-	String session_ko_name;
-	String session_gender;
-	
-	List<RoomUser> roomlist = new ArrayList<RoomUser>(); 
-	List<RoomUser> roomlist_user = new ArrayList<RoomUser>(); 
-	//session.setAttribute("session_id_chat", session_id);
+	String session_fb_id = map.get("fb_id");
+	String session_ko_name = map.get("ko_name");
+	String session_gender = map.get("gender");
+	List<RoomUserDTO> roomlist = new ArrayList<RoomUserDTO>(); 
+	List<RoomUserDTO> roomlist_user = new ArrayList<RoomUserDTO>(); 
 
-	if (map == null || session.equals("")) {
-		
-		//response.sendRedirect("home.do");
-		session_fb_id = null;
-		session_ko_name = null;
-		session_gender = null;
-	}
-	else{
-	session.setMaxInactiveInterval(60 * 60);	
-	session_fb_id = map.get("fb_id");
-	session_ko_name = map.get("ko_name");
-	session_gender = map.get("gender");
-		
-	}
 	
 	String roomuserfb_id=null;
 	String roomuserPK=null;
 	String roomusername=null;
-	
 	if(roomuserDAOImpl.getRoomUserDAOFb_id(session_fb_id)==null){
 		System.out.println("roomuserDAO null");
 	}
@@ -134,7 +119,7 @@
 			<div
 				style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;">
 
-				<td>${name}</td> &nbsp;님 환영합니다!&nbsp; <a href="#"
+				<td>${sessionScope.session_map.ko_name}</td> &nbsp;님 환영합니다!&nbsp; <a href="#"
 					class="btn btn-danger square-btn-adjust" onClick="ulogout()">Logout</a>
 			</div>
 		</nav>
@@ -146,7 +131,7 @@
 						<!--  <img
 						src="http://localhost:8080/test/resources/bootstrap/main/img/find_user.png"
 						class="user-image img-responsive" />--> <img
-						src="https://graph.facebook.com/<%=session_fb_id%>/picture"
+						src="https://graph.facebook.com/${sessionScope.session_map.fb_id}/picture"
 						class="user-image img-responsive" height="60" width="60" />
 					</li>
 
@@ -155,7 +140,7 @@
 							Profile</a></li>
 					<li><a href="#" class="active-menu"><i
 							class="fa fa-users fa-3x"></i> Team</a></li>
-					<li><a href="#" onClick="chat()"><i
+					<li><a href="#" onClick="chat_admin()"><i
 							class="fa fa-users fa-3x"></i> Chat</a></li>
 
 					<!-- <li><a href="#" onClick="chat()"><i
@@ -213,16 +198,16 @@
 					</div> --%>
 				</div>
 				<!-- /. ROW  -->
-
-				<a href="#"> <i class="fa fa-plus-circle" id="team_plus">팀구성하기</i>
+				
+				 <a href="#"> <i class="fa fa-plus-circle" id="team_plus">팀구성하기</i>
 					<div id="demo" style="font-family: Verdana">
 						<div class="plainmodal-close"></div>
 						팀구성하기
 						<hr />
 						팀 이름 : <br /> <br />
-						<form name="sendForm" method="post">
+						<form name="sendFormRoomCreater" method="post">
 							<input type="hidden" name="fb_id" id="fb_id"
-								value="<%=session_fb_id%>"><input type="text"
+								value="${sessionScope.session_map.fb_id}"><input type="text"
 								class="form-control" placeholder="Team name" name="roomname"
 								id="roomname" /> <br /> <br /> 팀 도메인 : <br /> <br /> <input
 								type="text" class="form-control" placeholder="Team name domain"
@@ -230,30 +215,30 @@
 							<center>
 								<span class="input-group-btn">
 									<button class="btn btn-info" type="button" id="sendBtn"
-										onClick="chat()">확인</button>
+										onClick="teamcreater()">확인</button>
 									<button class="btn btn-default" type="button" id="cancelBtn">취소</button>
 								</span>
 							</center>
 							<br />
 						</form>
 					</div>
-				</a>
+				</a> 
 				<hr />
 				<%for(int roomnum = 0; roomnum<roomlist.size(); roomnum++){ %>
-				<table class="table table-striped table-hover" width="744">
+				<table class="table table-striped table-hover" width="744" id="table_project">
 					<thead>
 						<tr>
 							<th></th>
 							<th>팀 이름</th>
-							<th>개설자</th>
+							<!-- <th>개설자</th> -->
 							<th>팀 도메인</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+						<tr id = "tr_project" onclick="javascript:clickProjectEvent('<%=roomlist.get(roomnum).getRoomUserPK()%>')">
 							<td><i class="fa fa-users fa-3x"></i></td>
 							<td><%=roomlist.get(roomnum).getRoomUserName() %></td>
-							<td><%=userDAOImpl.getUserDAOName(roomlist.get(roomnum).getRoomUserFb_id()).getUserName() %></td>
+							<%-- <td><%=userDAOImpl.getUserDAOName(roomlist.get(roomnum).getRoomUserFb_id()).getUserName() %></td> --%>
 							<td><%=roomlist.get(roomnum).getRoomUserPK() %></td>
 						</tr>
 					</tbody>
@@ -261,8 +246,8 @@
 				<%} %>
 				<hr />
 
-				
-						<!-- <div class="row">
+
+				<!-- <div class="row">
 					<div class="col-md-3 col-sm-6 col-xs-6">
 						<div class="panel panel-back noti-box">
 							<span class="icon-box bg-color-red set-icon"> <i
@@ -308,76 +293,109 @@
 						</div>
 					</div>
 				</div> -->
-				</div>
-
 			</div>
 
 		</div>
-		<!-- /. WRAPPER  -->
-		<!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-		<!-- JQUERY SCRIPTS -->
+
+	</div>
+	<!-- /. WRAPPER  -->
+	<!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+	<!-- JQUERY SCRIPTS -->
+	<form name="sendForm" method="post">
+					<input type="hidden" name="session_fb_id" id="session_fb_id"
+						value="${sessionScope.session_map.fb_id}">
+						<input type="hidden"
+						class="form-control"  name="session_team"
+						id="session_team" value="" /><input type="hidden"
+						class="form-control"  name="session_ko_name"
+						id="session_ko_name" value="${sessionScope.session_map.ko_name}" /><input
+						type="hidden" class="form-control" placeholder="Team name domain"
+						name="session_team_PK" id="session_team_PK" value="" />
+						<input
+						type="hidden" class="form-control" placeholder="Team name domain"
+						name="logoutURL" id="logoutURL" value="<%=logoutURL %>" /> <br />
+				</form>
 
 
 
-		<script
-			src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script
-			src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-		<script
-			src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-		<!-- BOOTSTRAP SCRIPTS -->
-		<script
-			src="http://localhost:8080/test/resources/bootstrap/main/js/bootstrap.min.js"></script>
-		<!-- METISMENU SCRIPTS -->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+	<script
+		src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<!-- BOOTSTRAP SCRIPTS -->
+	<script
+		src="http://localhost:8080/test/resources/bootstrap/main/js/bootstrap.min.js"></script>
+	<!-- METISMENU SCRIPTS -->
 
-		<script
-			src="http://localhost:8080/test/resources/bootstrap/main/js/jquery.metisMenu.js"></script>
-		<script src="http://localhost:8080/test/resources/pop/popModal.min.js"></script>
-		<script
-			src="http://localhost:8080/test/resources/plain/jquery.plainmodal.js"></script>
-		<script
-			src="http://localhost:8080/test/resources/treetable/jquery.treetable.js"></script>
-		<script src="http://localhost:8080/test/resources/treetable/grid.js"></script>
-		<!-- CUSTOM SCRIPTS -->
-		<script language="javascript"
-			src="http://connect.facebook.net/ko_KR/all.js"></script>
-		<script type="text/javascript">
+	<script
+		src="http://localhost:8080/test/resources/bootstrap/main/js/jquery.metisMenu.js"></script>
+	<script src="http://localhost:8080/test/resources/pop/popModal.min.js"></script>
+	<script
+		src="http://localhost:8080/test/resources/plain/jquery.plainmodal.js"></script>
+	<script
+		src="http://localhost:8080/test/resources/treetable/jquery.treetable.js"></script>
+	<script src="http://localhost:8080/test/resources/treetable/grid.js"></script>
+	<!-- CUSTOM SCRIPTS -->
+	<script language="javascript"
+		src="http://connect.facebook.net/ko_KR/all.js"></script>
+	<script type="text/javascript">
+	function clickProjectEvent(roomPK){
+		var fb_id = ${sessionScope.session_map.fb_id};
+		if(fb_id=="1234"){
+			chat_admin();
+		} 
+		chat(roomPK);
+		
+	}
+</script>
+	<script type="text/javascript">
 	function ulogout() {
-		<%session.invalidate();%>
-		//alert('UserLogout btn clicked');
-		window.location.href = "<%=logoutURL%>"
+		document.sendForm.action = "http://localhost:8080/test/logout.do";
+		document.sendForm.submit();
+		}
+	</script>
+
+	<script type="text/javascript">
+		function chat(roomPK) {
+			document.sendForm.session_team_PK.value = roomPK;
+			document.sendForm.action = "http://localhost:8080/test/chat/"+roomPK+".do";
+			document.sendForm.submit();
+		
+		}
+		function chat_admin() {
+			document.sendForm.session_team_PK.value = "admin";
+			document.sendForm.action = "http://localhost:8080/test/chat/admin.do";
+			document.sendForm.submit();
+		}
+		function teamcreater(){
+			document.sendFormRoomCreater.action = "http://localhost:8080/test/teamcreater.do";
+			document.sendFormRoomCreater.submit();
+		}
+	</script>
+
+	<script>
+		$('#team_plus').click(function() {
+			$('#demo').plainModal('open');
+		});
+
+		$('#session_team').keypress(function(e) {
+			var key = e.which;
+			if (key == 13) // the enter key code
+			{
+				$('#sendBtn').click();
+				return false;
 			}
-		</script>
-
-		<script type="text/javascript">
-			function chat() {
-
-				document.sendForm.action = "http://localhost:8080/test/chat.do";
-				document.sendForm.submit();
+		});
+		$('#session_team_PK').keypress(function(e) {
+			var key = e.which;
+			if (key == 13) // the enter key code
+			{
+				$('#sendBtn').click();
+				return false;
 			}
-		</script>
-
-		<script>
-			$('#team_plus').click(function() {
-				$('#demo').plainModal('open');
-			});
-
-			$('#session_team').keypress(function(e) {
-				var key = e.which;
-				if (key == 13) // the enter key code
-				{
-					$('#sendBtn').click();
-					return false;
-				}
-			});
-			$('#session_team_PK').keypress(function(e) {
-				var key = e.which;
-				if (key == 13) // the enter key code
-				{
-					$('#sendBtn').click();
-					return false;
-				}
-			});
-		</script>
+		});
+	</script>
 </body>
 </html>

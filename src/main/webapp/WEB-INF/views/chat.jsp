@@ -55,43 +55,24 @@
 <link
 	href="http://localhost:8080/test/resources/bootstrap/chatting/assets/css/bootstrap.css"
 	rel="stylesheet" />
+<link
+	href="http://localhost:8080/test/resources/bootstrap/chatting/assets/css/file.css"
+	rel="stylesheet" />
 
 </head>
 <body style="font-family: Verdana">
 	<div class="container">
 		<div class="row " style="padding-top: 40px;">
-			<h3 class="text-center">JABCHo</h3>
+			<h3 class="text-center">JABCHO</h3>
 			<br /> <br />
 			<div class="col-md-8">
 				<div class="panel panel-info">
 					<div class="panel-heading">RECENT CHAT HISTORY</div>
-					<div class="panel-body">
+					<div class="panel-body" id="dragAndDropDiv">
 						<ul class="media-list">
 
 							<li class="media" id="message"></li>
 
-
-
-
-							<!-- <li class="media">
-
-								<div class="media-body">
-
-									<div class="media">
-										<a class="pull-left" href="#"> <img
-											class="media-object img-circle "
-											src="http://localhost:8080/test/resources/bootstrap/chatting/assets/img/user.gif" />
-										</a>
-										<div class="media-body">
-											Donec sit amet ligula enim. Duis vel condimentum massa. Donec
-											sit amet . <br /> <small
-												class="text-muted">Jhon Rexa | 23rd June at 5:00pm</small>
-											<hr />
-										</div>
-									</div>
-
-								</div>
-							</li> -->
 						</ul>
 					</div>
 					<div class="panel-footer">
@@ -107,223 +88,259 @@
 			</div>
 			<div class="col-md-4">
 				<div class="panel panel-primary">
-					<div class="panel-heading">ONLINE USERS</div>
-					<div class="panel-body">
-						<!-- <ul class="media-list">
-
-							<li class="media">
-
-								<div class="media-body">
-
-									<div class="media">
-										<a class="pull-left" href="#"> <img
-											class="media-object img-circle" style="max-height: 40px;"
-											src="http://localhost:8080/test/resources/bootstrap/chatting/assets/img/user.png" />
-										</a>
-										<div class="media-body">
-											<h5>Alex Deo | User</h5>
-
-											<small class="text-muted">Active From 3 hours</small>
-										</div>
-									</div>
-
-								</div>
-							</li>
-							<li class="media">
-
-								<div class="media-body">
-
-									<div class="media">
-										<a class="pull-left" href="#"> <img
-											class="media-object img-circle" style="max-height: 40px;"
-											src="http://localhost:8080/test/resources/bootstrap/chatting/assets/img/user.gif" />
-										</a>
-										<div class="media-body">
-											<h5>Jhon Rexa | User</h5>
-
-											<small class="text-muted">Active From 3 hours</small>
-										</div>
-									</div>
-
-								</div>
-							</li>
-							<li class="media">
-
-								<div class="media-body">
-
-									<div class="media">
-										<a class="pull-left" href="#"> <img
-											class="media-object img-circle" style="max-height: 40px;"
-											src="http://localhost:8080/test/resources/bootstrap/chatting/assets/img/user.png" />
-										</a>
-										<div class="media-body">
-											<h5>Alex Deo | User</h5>
-
-											<small class="text-muted">Active From 3 hours</small>
-										</div>
-									</div>
-
-								</div>
-							</li>
-							<li class="media">
-
-								<div class="media-body">
-
-									<div class="media">
-										<a class="pull-left" href="#"> <img
-											class="media-object img-circle" style="max-height: 40px;"
-											src="http://localhost:8080/test/resources/bootstrap/chatting/assets/img/user.gif" />
-										</a>
-										<div class="media-body">
-											<h5>Jhon Rexa | User</h5>
-
-											<small class="text-muted">Active From 3 hours</small>
-										</div>
-									</div>
-
-								</div>
-							</li>
-							<li class="media">
-
-								<div class="media-body">
-
-									<div class="media">
-										<a class="pull-left" href="#"> <img
-											class="media-object img-circle" style="max-height: 40px;"
-											src="http://localhost:8080/test/resources/bootstrap/chatting/assets/img/user.png" />
-										</a>
-										<div class="media-body">
-											<h5>Alex Deo | User</h5>
-
-											<small class="text-muted">Active From 3 hours</small>
-										</div>
-									</div>
-
-								</div>
-							</li>
-							<li class="media">
-
-								<div class="media-body">
-
-									<div class="media">
-										<a class="pull-left" href="#"> <img
-											class="media-object img-circle" style="max-height: 40px;"
-											src="http://localhost:8080/test/resources/bootstrap/chatting/assets/img/user.gif" />
-										</a>
-										<div class="media-body">
-											<h5>Jhon Rexa | User</h5>
-
-											<small class="text-muted">Active From 3 hours</small>
-										</div>
-									</div>
-
-								</div>
-							</li>
-							<li class="media">
-
-								<div class="media-body">
-
-									<div class="media">
-										<a class="pull-left" href="#"> <img
-											class="media-object img-circle" style="max-height: 40px;"
-											src="http://localhost:8080/test/resources/bootstrap/chatting/assets/img/user.png" />
-										</a>
-										<div class="media-body">
-											<h5>Alex Deo | User</h5>
-
-											<small class="text-muted">Active From 3 hours</small>
-										</div>
-									</div>
-
-								</div>
-							</li>
-							<li class="media">
-
-								<div class="media-body">
-
-									<div class="media">
-										<a class="pull-left" href="#"> <img
-											class="media-object img-circle" style="max-height: 40px;"
-											src="http://localhost:8080/test/resources/bootstrap/chatting/assets/img/user.gif" />
-										</a>
-										<div class="media-body">
-											<h5>Jhon Rexa | User</h5>
-
-											<small class="text-muted">Active From 3 hours</small>
-										</div>
-									</div>
-
-								</div>
-							</li>
-						</ul> -->
-					</div>
+					<div class="panel-heading">File UP</div>
+					<div class="panel-body" id="dragAndDropResult"/>
 				</div>
-
 			</div>
+
 		</div>
+	</div>
 	</div>
 	<script
 		src="http://localhost:8080/test/resources/bootstrap/home/js/jquery-1.11.1.js"></script>
 	<script src="http://localhost:8080/test/resources/js/socket.io.js"></script>
-	<!-- <script src="http://localhost:8080/test/resources/js/chat.js"></script> -->
 
 	<script>
-		/* function connect() {
-			socket = new SockJS('/chat');
-			stompClient = Stomp.over(socket);
-			stompClient.connect('', '', function(frame) {
-				whoami = frame.headers['user-name'];
-				console.log('Connected: ' + frame);
-				stompClient.subscribe('/user/queue/messages',
-						function(message) {
-							showMessage(JSON.parse(message.body));
-						});
-				stompClient.subscribe('/topic/active', function(activeMembers) {
-					showActive(activeMembers);
-				});
-			});
-		}
-		function showMessage(message) {
-			var chatWindowTarget = (message.recipient === whoami) ? message.sender
-					: message.recipient;
-			var chatContainer = getChatWindow(chatWindowTarget);
-			var chatWindow = chatContainer.children('.chat');
-			var userDisplay = $('<span>', {
-				class : (message.sender === whoami ? 'chat-sender'
-						: 'chat-recipient')
-			});
-			userDisplay.html(message.sender + ' says: ');
-			var messageDisplay = $('<span>');
-			messageDisplay.html(message.message);
-			$('#message').append(userDisplay).append(messageDisplay).append(
-					'<br/>');
-			chatWindow.animate({
-				scrollTop : chatWindow[0].scrollHeight
-			}, 1);
-			if (message.sender !== whoami) {
-				var sendingUser = $('#user-' + message.sender);
-				if (!sendingUser.hasClass('user-selected')
-						&& !sendingUser.hasClass('pending-messages')) {
-					sendingUser.append(newMessageIcon());
-					sendingUser.addClass('pending-messages');
-				}
-			}
-		} */
-		
 		$(document)
 				.ready(
 						function() {
-
+							var objDragAndDrop = $("#dragAndDropDiv");
+							var dragAndDropResult = $("#dragAndDropResult");
+							var roomname = "${map.get('session_team')}";
+							var fb_id = "${map.get('session_fb_id')}";
+							var roomPK = "${map.get('session_team_PK')}";
+							var username = "${map.get('session_ko_name')}";
 							var socket = io.connect("http://localhost:8888");
 
-							var roomname = "${map.get('session_team')}";
-							var username = "${map.get('session_ko_name')}";
-							var roomPK = "${map.get('session_team_PK')}";
+							$(document).on(
+									"dragenter",
+									"#dragAndDropDiv",
+									function(e) {
+										e.stopPropagation();
+										e.preventDefault();
+										$(this).css('border',
+												'2px solid #0B85A1');
+									});
+							$(document).on("dragover", "#dragAndDropDiv",
+									function(e) {
+										e.stopPropagation();
+										e.preventDefault();
+									});
+							$(document)
+									.on(
+											"drop",
+											"#dragAndDropDiv",
+											function(e) {
+
+												$(this).css('border',
+														'2px dotted #0B85A1');
+												e.preventDefault();
+												var files = e.originalEvent.dataTransfer.files;
+
+												handleFileUpload(files,
+														dragAndDropResult);
+												$(this).css('border', '');
+											});
+
+							$(document).on('dragenter', function(e) {
+								e.stopPropagation();
+								e.preventDefault();
+							});
+							$(document).on(
+									'dragover',
+									function(e) {
+										e.stopPropagation();
+										e.preventDefault();
+										objDragAndDrop.css('border',
+												'2px dotted #0B85A1');
+									});
+							$(document).on('drop', function(e) {
+								e.stopPropagation();
+								e.preventDefault();
+							});
+
+							function handleFileUpload(files, obj) {
+								for (var i = 0; i < files.length; i++) {
+									var fd = new FormData();
+									fd.append('file', files[i]);
+									console.log(files[i]);
+									 var status = new createStatusbar(obj); //Using this we can set progress.
+									status.setFileNameSizeReg_date(files[i].name,
+										files[i].size,"\t 전송중..");  
+									sendFileToServer(fd,  status, 
+									files[i].name, files[i].size);
+
+								}
+							}
+
+							var rowCount = 0;
+							function createStatusbar(obj) {
+
+								rowCount++;
+								/* var row = "odd";
+								if (rowCount % 2 == 0)
+									row = "even"; */
+								this.statusbar = $("<div class='statusbar' style='cursor:pointer; cursor:hand;'></div>");
+								this.filename = $(
+										"<div class='filename'></div>")
+										.appendTo(this.statusbar);
+								this.size = $("<div class='filesize'></div>")
+										.appendTo(this.statusbar);
+								this.progressBar = $(
+										"<div class='progressBar'><div></div></div>")
+										.appendTo(this.statusbar);
+								this.reg_date = $("<div class='reg_date'></div>")
+								.appendTo(this.statusbar);
+								this.abort = $("<div class='abort'>중지</div>")
+										.appendTo(this.statusbar);
+
+								obj.after(this.statusbar);
+
+								this.setFileNameSizeReg_date = function(name, size, rd) {
+									var sizeStr = "";
+									var sizeKB = size / 1024;
+									if (parseInt(sizeKB) > 1024) {
+										var sizeMB = sizeKB / 1024;
+										sizeStr = sizeMB.toFixed(2) + " MB";
+									} else {
+										sizeStr = sizeKB.toFixed(2) + " KB";
+									}
+
+									this.filename.html(name);
+									this.size.html(sizeStr);
+									this.reg_date.html(rd);
+								}
+
+								this.setProgress = function(progress) {
+									var progressBarWidth = progress
+											* this.progressBar.width() / 100;
+									this.progressBar.find('div').animate({
+										width : progressBarWidth
+									}, 10).html(progress + "% ");
+									if (parseInt(progress) >= 100) {
+										this.abort.hide();
+									}
+								}
+
+								this.setAbort = function(jqxhr) {
+									var sb = this.statusbar;
+									this.abort.click(function() {
+										jqxhr.abort();
+										sb.hide();
+									});
+								}
+								this.sethide = function(){
+									var sb = this.statusbar;
+									sb.hide();
+								}
+								
+								this.setClick = function(fileindex){
+									this.statusbar.click(function(){
+										console.log(fileindex);
+										
+										document.location.href="http://localhost:8080/test/filedown.do?fileName="+fileindex+"";
+									})
+								}
+
+							}
+
+							function sendFileToServer(formData,  status, 
+							filename, filesize) {
+								formData.append('roomPK',
+										"${map.get('session_team_PK')}");
+								var uploadURL = "http://localhost:8080/test/fileupload.do"; //Upload URL
+								var jqXHR = $
+										.ajax({
+											xhr : function() {
+												var xhrobj = $.ajaxSettings
+														.xhr();
+												if (xhrobj.upload) {
+													xhrobj.upload
+															.addEventListener(
+																	'progress',
+																	function(
+																			event) {
+																		var percent = 0;
+																		var position = event.loaded
+																				|| event.position;
+																		var total = event.total;
+																		if (event.lengthComputable) {
+																			percent = Math
+																					.ceil(position
+																							/ total
+																							* 100);
+																		}
+
+																		//Set progress
+																		status.setProgress(percent);
+																	}, false);
+												}
+												return xhrobj;
+											},
+											url : uploadURL,
+											type : "POST",
+											contentType : false,
+											processData : false,
+											cache : false,
+											data : formData,
+											success : function(hm) {
+												//status.setProgress(100);
+												console.log("filename ==>"
+														+ filename);
+												console.log("filesize ==>"
+														+ filesize);
+												var time = new Date();
+												var totaltime = time.toString();
+												var date = time
+														.toLocaleString();
+												console.log("ran_filename===>"+hm.ran_filename);
+												socket.emit('filestatus', {
+													//'username': username, 
+													'roomPK' : roomPK,
+													'filename' : filename,
+													'filesize' : filesize,
+													'reg_date' : date,
+													'ran_filename' : hm.ran_filename
+													//'status_percent' : 100
+
+												});
+												status.sethide();
+												//$("#status1").append("File upload Done<br>");           
+											}
+										});
+
+								status.setAbort(jqXHR);
+							}
+
 
 							// Server 로 접속 유저아이디 와 접속한 채팅방 이름을 전송 합니다.
 							socket.emit('join', {
 								//'username': username, 
+								'roomPK' : roomPK,
 								'roomname' : roomname
+
+							});
+							
+
+							socket.on('filestatus', function(filestatus) {
+								var status = new createStatusbar(dragAndDropResult);
+								status.setFileNameSizeReg_date(filestatus.filename,
+										filestatus.filesize, filestatus.reg_date);
+								status.setProgress(100);
+								status.setClick(filestatus.fileindex);
+								
+								console.log('success');
+							});
+							
+							//join filedata load
+							socket.on('filedata', function(filedata) {
+								var status = new createStatusbar(dragAndDropResult);
+								status.setFileNameSizeReg_date(filedata.filename,
+										filedata.filesize, filedata.reg_date);
+								status.setProgress(100);
+								status.setClick(filedata.fileindex);
+								
+								console.log('success');
 							});
 
 							socket
@@ -344,6 +361,22 @@
 																		+ '</small></div></div></div><hr/>');
 
 											});
+							socket
+									.on(
+											'chatdata',
+											function(chatdata) {
+												$('#message')
+														.append(
+																'<div class="media-body"><div class="media"><a class="pull-left" href="#"> <img	class="media-object img-circle " src='+chatdata.userpic+'/></a><div class="media-body">'
+																		+ chatdata.msg
+																		+ '<br/><small	class="text-muted"> '
+																		+ chatdata.username
+																		+ "\t\t\t\t\t\t\t\t\t\t|\t\t\t\t\t\t\t\t\t\t"
+																		+ chatdata.reg_date_time
+																		+ '</small></div></div></div><hr/>');
+
+											});
+
 							$('#chat').keypress(function(e) {
 								var key = e.which;
 								if (key == 13) // the enter key code
@@ -366,11 +399,13 @@
 												var totaltime = time.toString();
 												var date = time
 														.toLocaleString();
+
 												socket
 														.emit(
 																'msg',
 																{
 																	userpic : "https://graph.facebook.com/${map.get('session_fb_id')}/picture",
+																	fb_id : fb_id,
 																	username : username,
 																	msg : msg,
 																	reg_date_time : date,
@@ -382,7 +417,7 @@
 											});
 
 						});
-		
+		//filedown?fileName=${ list.getFileName() }
 	</script>
 </body>
 </html>

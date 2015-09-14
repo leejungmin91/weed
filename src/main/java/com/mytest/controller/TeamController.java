@@ -1,5 +1,7 @@
 package com.mytest.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -17,7 +19,7 @@ import com.mytest.DAO.RoomUserDAOImpl;
 import com.mytest.DAO.UserDAOImpl;
 //import com.mytest.DTO.FileDTO;
 //import com.mytest.DTO.MemberDTO;
-import com.mytest.DTO.User;
+import com.mytest.DTO.UserDTO;
 
 @Controller
 public class TeamController {
@@ -31,24 +33,32 @@ public class TeamController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(TeamController.class);
 
-	@RequestMapping(value = "/team", method = RequestMethod.GET)
-	public ModelAndView get(HttpServletRequest request) {
+	@RequestMapping(value = "/team", method = RequestMethod.POST)
+	public ModelAndView post(HttpServletRequest request) {
 		ModelAndView result = new ModelAndView();
-		result.setViewName("home");
+		result.setViewName("team");
 		return result;
 	}
 
-	@RequestMapping(value = "/team", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView insert(HttpServletRequest request, HttpSession session) {
 		logger.info("Welcome team! The client locale is {}.");
 		// ArrayList<FileDTO> list = fileDAOService.getFile();
 		// MemberDTO member = new MemberDTO();
-		User user = new User();
+		HashMap<String , String> map = new HashMap<String, String>();
+		map.put("fb_id",(String) request.getParameter("fb_id"));
+		map.put("ko_name",(String) request.getParameter("name"));
+		map.put("gender",(String) request.getParameter("gender"));		
+		
+		request.getSession().setAttribute("session_map", map);
+		
+		UserDTO user = new UserDTO();
 
 		logger.info("userDAO class = "
 				+ userDAOImpl.getUserDAOFb_id((String) request
 						.getParameter("fb_id")));
 		logger.info("userDAOImpl class = " + userDAOImpl);
+		logger.info("request : "+ request.getParameter("fb_id"));
 
 		/*
 		 * if (((String) request.getParameter("fb_id")).equals((userDAOImpl

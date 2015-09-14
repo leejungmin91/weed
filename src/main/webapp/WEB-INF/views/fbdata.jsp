@@ -78,12 +78,6 @@
 			}
 		}
 		JSONObject json = new JSONObject(jsonData);
-		HashMap<String , String> map = new HashMap<String, String>();
-		//map.put("email",json.getString("email"));
-		map.put("fb_id",json.getString("id"));
-		map.put("ko_name",json.getString("name"));
-		map.put("gender",json.getString("gender"));
-		session.setAttribute("session_map", map);
 		//String email = json.getString("email");
 		String fb_id = json.getString("id");
 		String name = json.getString("name");
@@ -103,7 +97,7 @@
 			type="hidden" name="gender" value="<%=gender%>">
 	</form>
 	<script type="text/javascript">
-		document.sendForm.action = "http://localhost:8080/test/team.do";
+		document.sendForm.action = "http://localhost:8080/test/login.do";
 		document.sendForm.submit();
 
 	</script>

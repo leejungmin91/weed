@@ -3,23 +3,19 @@ package com.mytest.DAO;
 import java.util.List;
 
 import com.mongodb.WriteResult;
-import com.mytest.DTO.RoomUser;
+import com.mytest.DTO.RoomUserDTO;
 
 public interface RoomUserDAO {
 
-  public RoomUser insert(RoomUser room);
+  public RoomUserDTO insert(RoomUserDTO room);
+  
+  public RoomUserDTO getRoomUserDAOFb_id(String fb_id);
+  
+  public RoomUserDTO getRoomUserDAOPK(String roomPK);
+  
+  public List<RoomUserDTO> getRoomUsers(String fb_id);
 
-  public RoomUser getRoomUserDAOReg_Date(String reg_data);
-  
-  public RoomUser getRoomUserDAOFb_id(String fb_id);
-  
-  public RoomUser getRoomUserDAOPK(String fb_id);
-  
-  public RoomUser getRoomUserDAOName(String fb_id);
-  
-  public List<RoomUser> getRoomUsers(String fb_id);
-
-  public void deleteRoomUser(RoomUser room);
+  public void deleteRoomUser(RoomUserDTO room);
 
   public WriteResult updateRoomUser(String fb_id,String roomPK);
 }

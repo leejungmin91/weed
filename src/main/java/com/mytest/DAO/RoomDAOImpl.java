@@ -1,6 +1,8 @@
 package com.mytest.DAO;
 
-import com.mytest.DTO.Room;
+import com.mongodb.WriteResult;
+import com.mytest.DTO.RoomDTO;
+import com.mytest.DTO.RoomUserDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,41 +25,51 @@ public class RoomDAOImpl implements RoomDAO {
   private static String COLLECTION_NAME = "jabcho_room";
 
   @Override
-  public Room insert(Room room) {
+  public RoomDTO insert(RoomDTO room) {
 	logger.info("Room insert");
     mongoTemplate.insert(room,COLLECTION_NAME);
     return room;
   }
   @Override
-  public Room getRoomDAOReg_Date(String reg_date) {
+  public RoomDTO getRoomDAOReg_Date(String reg_date) {
 	  Query query = new Query(Criteria.where("reg_date").is(reg_date));
-	  return mongoTemplate.findOne(query, Room.class, COLLECTION_NAME);
+	  return mongoTemplate.findOne(query, RoomDTO.class, COLLECTION_NAME);
   }
 
   @Override
-  public Room getRoomDAOName(String userName) {
+  public RoomDTO getRoomDAOName(String userName) {
 	  Query query = new Query(Criteria.where("username").is(userName));
-	  return mongoTemplate.findOne(query, Room.class, COLLECTION_NAME);
+	  return mongoTemplate.findOne(query, RoomDTO.class, COLLECTION_NAME);
   }
 
   @Override
-  public Room getRoomDAOPK(String roomPK) {
+  public RoomDTO getRoomDAOPK(String roomPK) {
 	  Query query = new Query(Criteria.where("roomPK").is(roomPK));
-	  return mongoTemplate.findOne(query, Room.class, COLLECTION_NAME);
+	  return mongoTemplate.findOne(query, RoomDTO.class, COLLECTION_NAME);
+  }
+  @Override
+  public long getRoomNum() {
+	  Query query = new Query(Criteria.where("roomPK"));
+	  return mongoTemplate.count(query,COLLECTION_NAME);
   }
 
   @Override
-  public List<Room> getRooms() {
-    return (List<Room>) mongoTemplate.findAll(Room.class);
+  public List<RoomDTO> getRooms() {
+	return (List<RoomDTO>) mongoTemplate.findAll(RoomDTO.class , COLLECTION_NAME);
   }
 
   @Override
-  public void deleteRoom(Room Room) {
+  public void deleteRoom(RoomDTO Room) {
   }
 
   @Override
-  public Room updateRoom(Room Room) {
-    return Room;
-  }
+	public WriteResult updateRoom(String roomPK,String socketId) {
+
+		Query query = new Query(Criteria.where("roomPK").is(roomPK));
+		Update update = new Update();
+		update.set("socketId", socketId);
+
+		return mongoTemplate.updateFirst(query, update, COLLECTION_NAME);
+	}
 
 }

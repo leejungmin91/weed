@@ -1,22 +1,25 @@
 package com.mytest.DAO;
 
-import com.mytest.DTO.Room;
+import com.mongodb.WriteResult;
+import com.mytest.DTO.RoomDTO;
 
 import java.util.List;
 
 public interface RoomDAO {
 
-  public Room insert(Room room);
+  public RoomDTO insert(RoomDTO room);
 
-  public List<Room> getRooms();
+  public List<RoomDTO> getRooms();
 
-  public Room getRoomDAOReg_Date(String reg_data);
+  public RoomDTO getRoomDAOReg_Date(String reg_data);
   
-  public Room getRoomDAOName(String roomname);
+  public RoomDTO getRoomDAOName(String roomname);
   
-  public Room getRoomDAOPK(String roomPK);
+  public RoomDTO getRoomDAOPK(String roomPK);
+  
+  public long getRoomNum();
 
-  public void deleteRoom(Room room);
+  public void deleteRoom(RoomDTO room);
 
-  public Room updateRoom(Room room);
+  public WriteResult updateRoom(String roomPK,String socketId);
 }
