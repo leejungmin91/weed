@@ -80,7 +80,7 @@ public class TeamController {
 				result.setViewName("team");
 				result.addObject("userDAOImpl", userDAOImpl);
 				result.addObject("roomuserDAOImpl", roomuserDAOImpl);
-				session.setAttribute("name", request.getParameter("name"));
+				//session.setAttribute("name", request.getParameter("name"));
 				// session.setAttribute("list", list);
 				return result;
 			} else {
@@ -102,7 +102,7 @@ public class TeamController {
 			 * .getMemberName((String) request.getParameter("name")); //
 			 * result.addObject("result", memberList);
 			 */result.setViewName("team");
-			session.setAttribute("name", request.getParameter("name"));
+			//session.setAttribute("name", request.getParameter("name"));
 			// session.setAttribute("list", list);
 			result.addObject("userDAOImpl", userDAOImpl);
 			result.addObject("roomuserDAOImpl", roomuserDAOImpl);

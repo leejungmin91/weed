@@ -29,7 +29,7 @@ public class ChattingController {
 	 */
 	@Autowired
 	private RoomDAOImpl roomDAOImpl;
-	@RequestMapping(value = "/*", method = RequestMethod.POST)
+	@RequestMapping(value = "/*", method = {RequestMethod.GET ,RequestMethod.POST})
 	public ModelAndView home(HttpServletRequest request, HttpSession session) {
 		
 		logger.info("Welcome chat! The client locale is {}.");
@@ -52,21 +52,14 @@ public class ChattingController {
 		map.put("session_ko_name", session_ko_name);
 		map.put("session_team", session_team);
 		map.put("session_team_PK", session_team_PK);
-		if(((String)request.getParameter("session_fb_id")).equals("1234")){
-			map.put("session_fb_id", session_fb_id);
-			map.put("session_ko_name", session_ko_name);
-			map.put("session_team", session_team);
-			map.put("session_team_PK", "admin");
-			session.setAttribute("map", map);
-			result.setViewName("chat");
-			logger.info("admin map : " + session_fb_id);
-			return result;
-		}else{
-		session.setAttribute("map", map);
+		
+		
+		request.getSession().setAttribute("map", map);
+		//session.setAttribute("map", map);
 		logger.info("user map : " + session_fb_id);
 		result.setViewName("chat");
 		return result;
-		}
+		
 	}
 
 }

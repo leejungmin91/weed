@@ -52,6 +52,10 @@ public class RoomUserDAOImpl implements RoomUserDAO {
 		Query query = new Query(Criteria.where("fb_id").is(fb_id));
 		return (List<RoomUserDTO>) mongoTemplate.find(query,RoomUserDTO.class , COLLECTION_NAME);
 	}
+	@Override
+	public List<RoomUserDTO> getRooms() {
+		return (List<RoomUserDTO>) mongoTemplate.findAll(RoomUserDTO.class , COLLECTION_NAME);
+	}
 
 	@Override
 	public void deleteRoomUser(RoomUserDTO user) {

@@ -227,7 +227,7 @@
 		src="http://connect.facebook.net/ko_KR/all.js"></script>
 
 	<!-- 윈도우 창  생성 -->
-	<script type="text/javascript">
+<!-- 	<script type="text/javascript">
 		function openW(url, idn, intWidth, intHeight, scroll) {
 			/*
 			window.open(url, idn, "width=" + intWidth + ", height=" + intHeight
@@ -242,7 +242,7 @@
 			
 
 		}
-	</script>
+	</script> -->
 	<script type="text/javascript">
 	function facebookoauth() {
 		

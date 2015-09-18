@@ -14,6 +14,8 @@ public interface RoomUserDAO {
   public RoomUserDTO getRoomUserDAOPK(String roomPK);
   
   public List<RoomUserDTO> getRoomUsers(String fb_id);
+  
+  public List<RoomUserDTO> getRooms();
 
   public void deleteRoomUser(RoomUserDTO room);
 

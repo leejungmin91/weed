@@ -106,10 +106,10 @@
 						function() {
 							var objDragAndDrop = $("#dragAndDropDiv");
 							var dragAndDropResult = $("#dragAndDropResult");
-							var roomname = "${map.get('session_team')}";
-							var fb_id = "${map.get('session_fb_id')}";
-							var roomPK = "${map.get('session_team_PK')}";
-							var username = "${map.get('session_ko_name')}";
+							var roomname = "${sessionScope.map.session_team}";
+							var fb_id = "${sessionScope.map.session_fb_id}";
+							var roomPK = "${sessionScope.map.session_team_PK}";
+							var username = "${sessionScope.map.session_ko_name}";
 							var socket = io.connect("http://localhost:8888");
 
 							$(document).on(
@@ -247,7 +247,7 @@
 							function sendFileToServer(formData,  status, 
 							filename, filesize) {
 								formData.append('roomPK',
-										"${map.get('session_team_PK')}");
+										"${sessionScope.map.session_team_PK}");
 								var uploadURL = "http://localhost:8080/test/fileupload.do"; //Upload URL
 								var jqXHR = $
 										.ajax({
@@ -417,7 +417,6 @@
 											});
 
 						});
-		//filedown?fileName=${ list.getFileName() }
 	</script>
 </body>
 </html>

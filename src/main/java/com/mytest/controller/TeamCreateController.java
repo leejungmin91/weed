@@ -55,6 +55,8 @@ public class TeamCreateController {
 
 		RoomUserDTO roomuser = new RoomUserDTO();
 		RoomDTO room = new RoomDTO();
+		logger.info("roomPK"+(String) request
+				.getParameter("roomPK"));
 
 		if ((roomuserDAOImpl.getRoomUserDAOPK((String) request
 				.getParameter("roomPK")) == null)) {
@@ -75,7 +77,6 @@ public class TeamCreateController {
 			session.setAttribute("name", request.getParameter("name"));
 			return result;
 		} else {
-			
 			
 			if (((String) request.getParameter("roomPK"))
 					.equals((roomuserDAOImpl.getRoomUserDAOPK((String) request

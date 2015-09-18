@@ -49,15 +49,15 @@ $(document).ready(function() {
 
 $(document).ready(
 		function() {
-			$(".dropdown").hover(
+			$(".dropdown").click(
 					function() {
-						$('.dropdown-menu', this).not('.in .dropdown-menu')
-								.stop(true, true).slideDown("fast");
+						/*$('.dropdown-menu', this).not('.in .dropdown-menu')
+								.stop(true, true).slideDown("fast");*/
 						$(this).toggleClass('open');
 					},
 					function() {
-						$('.dropdown-menu', this).not('.in .dropdown-menu')
-								.stop(true, true).slideUp("fast");
+						/*$('.dropdown-menu', this).not('.in .dropdown-menu')
+								.stop(true, true).slideUp("fast");*/
 						$(this).toggleClass('open');
 					});
 		});

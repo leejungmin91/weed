@@ -45,7 +45,8 @@
 	String session_ko_name = map.get("ko_name");
 	String session_gender = map.get("gender");
 	List<RoomUserDTO> roomlist = new ArrayList<RoomUserDTO>(); 
-	List<RoomUserDTO> roomlist_user = new ArrayList<RoomUserDTO>(); 
+	List<RoomUserDTO> roomlist_user = new ArrayList<RoomUserDTO>();
+	List<RoomUserDTO> all_roomlist = new ArrayList<RoomUserDTO>();
 
 	
 	String roomuserfb_id=null;
@@ -60,6 +61,14 @@
 		roomuserPK = roomuserDAOImpl.getRoomUserDAOPK(session_fb_id).getRoomUserPK();
 		roomusername = roomuserDAOImpl.getRoomUserDAOName(session_fb_id).getRoomUserName(); */
 	}
+	if(roomuserDAOImpl.getRooms()==null){
+		System.out.println("all_roomuserDAO null");
+	}
+	else{
+		all_roomlist = roomuserDAOImpl.getRooms();
+	}
+	
+	
 
 %>
 <html lang="ko">
@@ -103,6 +112,7 @@
 
 </head>
 <body>
+
 	<div id="wrapper">
 		<nav class="navbar navbar-default navbar-cls-top " role="navigation"
 			style="margin-bottom: 0">
@@ -117,11 +127,28 @@
 			</div>
 
 			<div
-				style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;">
+				style="color: white; padding: 15px 50px 5px 50px; float: left; font-size: 16px;">
 
-				<td>${sessionScope.session_map.ko_name}</td> &nbsp;님 환영합니다!&nbsp; <a href="#"
-					class="btn btn-danger square-btn-adjust" onClick="ulogout()">Logout</a>
-			</div>
+				<td>${sessionScope.session_map.ko_name}</td> &nbsp;님 환영합니다!&nbsp; 
+			</div >
+			<span style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;" onClick="Message()" class="dropdown">
+			<i class="fa fa-comments  fa-2x" data-toggle="dropdown"><span class="caret"></span></i>
+			<ul class="dropdown-menu" role="menu">
+								<div style="width:350px;padding:5px;">  
+             <a href=""><img src="" width="50px" height="50px"/></a>&nbsp;<a href=""> has sent you a message!</a>  
+             <a href="" onclick="" style="float:right;"><i class="icon-trash"></i></a>  
+           </div>  
+
+							</ul>
+			
+			
+			</span>
+			<span
+				style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;">
+			<a
+					href="#" class="btn btn-danger square-btn-adjust"
+					onClick="ulogout()">Logout</a>
+					</span>
 		</nav>
 		<!-- /. NAV TOP  -->
 		<nav class="navbar-default navbar-side" role="navigation">
@@ -154,146 +181,48 @@
 		<!-- /. NAV SIDE  -->
 		<div id="page-wrapper">
 			<div id="page-inner">
-				<div class="row">
-					<%-- <div class="col-md-12">
-						<h3>File UPLOAD</h3>
-						<form action="fileup.do" method="post"
-							enctype="multipart/form-data">
-							<input type="file" name="uploadfile" required="required">
-							<input type="submit" value="작성">
 
-						</form>
+				<a href="#"> <i class="fa fa-plus-circle" id="team_plus">&nbsp;&nbsp;팀구성하기</i>
+				</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#"> <i
+					class="fa fa-search" id="team_search">&nbsp;&nbsp;팀검색하기</i>
+				</a>
+				<hr />
 
-						</br>
-						<h3>File DOWNLOAD LIST</h3>
-						</br>
-						<fieldset>
-							<table style="border: 1px; width: 400px;">
-								<tr>
-									<th style="width: 100px"></th>
-									<th style="width: 300px">파일명</th>
-									<th style="width: 100px">파일사이즈</th>
-								</tr>
 
-								<c:if test="${ !empty list }">
-									<c:forEach items="${ list }" var="list">
-										<tr>
-											<td width="100px"></td>
-											<td width="300px"><a
-												href="filedown.do?fileName=${ list.getFileName() }">${ list.getFileName() }</a></td>
-											<td width="100px">${ list.getFileSize() }</td>
-										</tr>
-									</c:forEach>
-								</c:if>
 
-								<c:if test="${ empty list }">
-									<tr>
-										<td colspan="5">등록된 게시물이 없습니다.</td>
-									</tr>
-								</c:if>
-							</table>
-						</fieldset>
-						</br> </br>
 
-					</div> --%>
+				<div class="panel panel-primary filterable">
+					<div class="panel-heading">
+						<h3 class="panel-title">내 팀 목록</h3>
+
+					</div>
+					<table class="table table-striped table-hover" width="744"
+						id="table_project">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>팀 이름</th>
+								<th>팀 도메인</th>
+							</tr>
+						</thead>
+						<%for(int roomnum = 0; roomnum<roomlist.size(); roomnum++){ %>
+
+						<tbody>
+							<tr id="tr_project"
+								onclick="javascript:clickProjectEvent('<%=roomlist.get(roomnum).getRoomUserPK()%>')">
+								<td><i class="fa fa-users fa-3x"></i></td>
+								<td><%=roomlist.get(roomnum).getRoomUserName() %></td>
+								<%-- <td><%=userDAOImpl.getUserDAOName(roomlist.get(roomnum).getRoomUserFb_id()).getUserName() %></td> --%>
+								<td><%=roomlist.get(roomnum).getRoomUserPK() %></td>
+							</tr>
+						</tbody>
+						<%} %>
+					</table>
+
+
 				</div>
-				<!-- /. ROW  -->
-				
-				 <a href="#"> <i class="fa fa-plus-circle" id="team_plus">팀구성하기</i>
-					<div id="demo" style="font-family: Verdana">
-						<div class="plainmodal-close"></div>
-						팀구성하기
-						<hr />
-						팀 이름 : <br /> <br />
-						<form name="sendFormRoomCreater" method="post">
-							<input type="hidden" name="fb_id" id="fb_id"
-								value="${sessionScope.session_map.fb_id}"><input type="text"
-								class="form-control" placeholder="Team name" name="roomname"
-								id="roomname" /> <br /> <br /> 팀 도메인 : <br /> <br /> <input
-								type="text" class="form-control" placeholder="Team name domain"
-								name="roomPK" id="roomPK" /> <br />
-							<center>
-								<span class="input-group-btn">
-									<button class="btn btn-info" type="button" id="sendBtn"
-										onClick="teamcreater()">확인</button>
-									<button class="btn btn-default" type="button" id="cancelBtn">취소</button>
-								</span>
-							</center>
-							<br />
-						</form>
-					</div>
-				</a> 
-				<hr />
-				<%for(int roomnum = 0; roomnum<roomlist.size(); roomnum++){ %>
-				<table class="table table-striped table-hover" width="744" id="table_project">
-					<thead>
-						<tr>
-							<th></th>
-							<th>팀 이름</th>
-							<!-- <th>개설자</th> -->
-							<th>팀 도메인</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr id = "tr_project" onclick="javascript:clickProjectEvent('<%=roomlist.get(roomnum).getRoomUserPK()%>')">
-							<td><i class="fa fa-users fa-3x"></i></td>
-							<td><%=roomlist.get(roomnum).getRoomUserName() %></td>
-							<%-- <td><%=userDAOImpl.getUserDAOName(roomlist.get(roomnum).getRoomUserFb_id()).getUserName() %></td> --%>
-							<td><%=roomlist.get(roomnum).getRoomUserPK() %></td>
-						</tr>
-					</tbody>
-				</table>
-				<%} %>
-				<hr />
-
-
-				<!-- <div class="row">
-					<div class="col-md-3 col-sm-6 col-xs-6">
-						<div class="panel panel-back noti-box">
-							<span class="icon-box bg-color-red set-icon"> <i
-								class="fa fa-envelope-o"></i>
-							</span>
-							<div class="text-box">
-								<p class="main-text">120 New</p>
-								<p class="text-muted">Messages</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3 col-sm-6 col-xs-6">
-						<div class="panel panel-back noti-box">
-							<span class="icon-box bg-color-green set-icon"> <i
-								class="fa fa-bars"></i>
-							</span>
-							<div class="text-box">
-								<p class="main-text">30 Tasks</p>
-								<p class="text-muted">Remaining</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3 col-sm-6 col-xs-6">
-						<div class="panel panel-back noti-box">
-							<span class="icon-box bg-color-blue set-icon"> <i
-								class="fa fa-bell-o"></i>
-							</span>
-							<div class="text-box">
-								<p class="main-text">240 New</p>
-								<p class="text-muted">Notifications</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3 col-sm-6 col-xs-6">
-						<div class="panel panel-back noti-box">
-							<span class="icon-box bg-color-brown set-icon"> <i
-								class="fa fa-rocket"></i>
-							</span>
-							<div class="text-box">
-								<p class="main-text">3 Orders</p>
-								<p class="text-muted">Pending</p>
-							</div>
-						</div>
-					</div>
-				</div> -->
 			</div>
+
 
 		</div>
 
@@ -301,22 +230,92 @@
 	<!-- /. WRAPPER  -->
 	<!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
 	<!-- JQUERY SCRIPTS -->
-	<form name="sendForm" method="post">
-					<input type="hidden" name="session_fb_id" id="session_fb_id"
-						value="${sessionScope.session_map.fb_id}">
-						<input type="hidden"
-						class="form-control"  name="session_team"
-						id="session_team" value="" /><input type="hidden"
-						class="form-control"  name="session_ko_name"
-						id="session_ko_name" value="${sessionScope.session_map.ko_name}" /><input
-						type="hidden" class="form-control" placeholder="Team name domain"
-						name="session_team_PK" id="session_team_PK" value="" />
-						<input
-						type="hidden" class="form-control" placeholder="Team name domain"
-						name="logoutURL" id="logoutURL" value="<%=logoutURL %>" /> <br />
-				</form>
+	 <form name="sendForm" method="post">
+		<input type="hidden" name="session_fb_id" id="session_fb_id"
+			value="${sessionScope.session_map.fb_id}"> <input
+			type="hidden" class="form-control" name="session_team"
+			id="session_team" value="" /><input type="hidden"
+			class="form-control" name="session_ko_name" id="session_ko_name"
+			value="${sessionScope.session_map.ko_name}" /><input type="hidden"
+			class="form-control" placeholder="Team name domain"
+			name="session_team_PK" id="session_team_PK" value="" /> <input
+			type="hidden" class="form-control" placeholder="Team name domain"
+			name="logoutURL" id="logoutURL" value="<%=logoutURL %>" /> <br />
+	</form> 
+	<div id="demo" style="font-family: Verdana">
+		<div class="plainmodal-close"></div>
+		팀 구성하기
+		<hr />
+		팀 이름 : <br /> <br />
+		<form name="sendFormRoomCreater" method="post">
+			<input type="hidden" name="fb_id" id="fb_id"
+				value="${sessionScope.session_map.fb_id}"><input type="text"
+				class="form-control" placeholder="Team name" name="roomname"
+				id="roomname" /> <br /> <br /> 팀 도메인 : <br /> <br /> <input
+				type="text" class="form-control" placeholder="Team name domain"
+				name="roomPK" id="roomPK" /> <br />
+			<center>
+				<span class="input-group-btn">
+					<button class="btn btn-info" type="button" id="sendBtn"
+						onClick="teamcreater()">확인</button>
+					<button class="btn btn-default" type="button" id="cancelBtn">취소</button>
+				</span>
+			</center>
+			<br />
+		</form>
+	</div>
+
+	<div id="demo2" style="font-family: Verdana">
+		<div class="plainmodal-close"></div>
+		<div class="panel panel-primary filterable">
+			<div class="panel-heading">
+				<h5 class="panel-title">
+					팀 목록
+					<div class="pull-right">
+						<button class="btn btn-default btn-filter">
+							<span class="glyphicon glyphicon-filter"></span> 검색
+						</button>
+					</div>
+				</h5>
+				<br />
+			</div>
+			<table class="table table-striped table-hover" width="744"
+				id="table_project2">
+				<thead>
+					<tr class="filters">
+						<th><input type="text" class="form-control" placeholder="#"
+							id="in" disabled></th>
+						<th><input type="text" class="form-control"
+							placeholder="팀 이름" disabled></th>
+						<th><input type="text" class="form-control"
+							placeholder="팀 도메인" disabled></th>
+						<th><input type="text" class="form-control"
+							placeholder="팀 개설자" disabled></th>
+					</tr>
+				</thead>
+				<%for(int roomnum = 0; roomnum<all_roomlist.size(); roomnum++){ %>
+				<tbody>
+					<tr id="tr_project2">
+						<td><i class="fa fa-users fa-3x"></i></td>
+						<td><%=all_roomlist.get(roomnum).getRoomUserName() %></td>
+						<%-- <td><%=userDAOImpl.getUserDAOName(roomlist.get(roomnum).getRoomUserFb_id()).getUserName() %></td> --%>
+						<td><%=all_roomlist.get(roomnum).getRoomUserPK() %></td>
+						<td><%=userDAOImpl.getUserDAOName(all_roomlist.get(roomnum).getRoomUserFb_id()).getUserName() %></td>
+						<td><button class="btn btn-info"
+								onclick="javascript:clickSearchEvent('<%=all_roomlist.get(roomnum).getRoomUserFb_id()%>','<%=all_roomlist.get(roomnum).getRoomUserPK()%>')">
+								<i class="fa fa-sign-in"></i>
+							</button></td>
+					</tr>
+				</tbody>
+				<%} %>
+				<tbody id="t1">
+
+				</tbody>
+			</table>
 
 
+		</div>
+	</div>
 
 	<script
 		src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -337,47 +336,109 @@
 	<script
 		src="http://localhost:8080/test/resources/treetable/jquery.treetable.js"></script>
 	<script src="http://localhost:8080/test/resources/treetable/grid.js"></script>
+	<script
+		src="http://localhost:8080/test/resources/bootstrap/home/js/custom.js"></script>
 	<!-- CUSTOM SCRIPTS -->
 	<script language="javascript"
 		src="http://connect.facebook.net/ko_KR/all.js"></script>
 	<script type="text/javascript">
-	function clickProjectEvent(roomPK){
-		var fb_id = ${sessionScope.session_map.fb_id};
-		if(fb_id=="1234"){
-			chat_admin();
-		} 
-		chat(roomPK);
-		
-	}
-</script>
-	<script type="text/javascript">
-	function ulogout() {
-		document.sendForm.action = "http://localhost:8080/test/logout.do";
-		document.sendForm.submit();
+		function clickProjectEvent(roomPK) {
+			var fb_id = ${sessionScope.session_map.fb_id};
+			chat(roomPK);
+			
+		}
+		function clickSearchEvent(recv_fb_id,roomPK) {
+			var fd = new FormData();
+			var send_fb_id = ${sessionScope.session_map.fb_id};
+			var time = new Date();
+			var date = time
+					.toLocaleString();
+			
+			
+			fd.append('recv_fb_id',recv_fb_id);
+			fd.append('send_fb_id',send_fb_id);
+			fd.append('roomPK',roomPK);
+			fd.append('reg_date',date);
+			 $.ajax({
+			        type: 'POST',
+			        url:  'http://localhost:8080/test/message.do',
+			        data: fd,
+			        contentType : false,
+					processData : false,
+					cache : false,
+					success: function (message) {
+			            alert('신청되었습니다');
+
+			        }
+			    });
 		}
 	</script>
+	<script type="text/javascript">
+		function ulogout() {
+			<%-- var fd = new FormData();
+			fd.append('logoutURL','<%=logoutURL%>');
+			$.ajax({
+		        type: 'POST',
+		        url:  'http://localhost:8080/test/logout.do',
+		        data: fd,
+		        contentType : false,
+				processData : false,
+				cache : false,
+				success: function (message) {
+		            console.log("ajax send logout Success");
 
+		        }
+		    }); --%>
+			 document.sendForm.action = "http://localhost:8080/test/logout.do";
+			document.sendForm.submit(); 
+		}
+	</script>
 	<script type="text/javascript">
 		function chat(roomPK) {
+			/* var fd = new FormData();
+			fd.append('session_fb_id','${sessionScope.session_map.fb_id}');
+			fd.append('session_team','');
+			fd.append('session_ko_name','${sessionScope.session_map.ko_name}');
+			fd.append('session_team_PK',roomPK);
+			
+			
+			$.ajax({
+		        type: 'POST',
+		        url:  'http://localhost:8080/test/chat/'+roomPK+'.do',
+		        data: fd,
+		        contentType : false,
+				processData : false,
+				cache : false,
+				success: function (message) {
+		            console.log("ajax send chat Success");
+		            location.href='http://localhost:8080/test/chat/'+roomPK+'.do';
+
+		        }
+		    }); */
 			document.sendForm.session_team_PK.value = roomPK;
-			document.sendForm.action = "http://localhost:8080/test/chat/"+roomPK+".do";
+			document.sendForm.action = "http://localhost:8080/test/chat/"
+					+ roomPK + ".do";
 			document.sendForm.submit();
-		
+
 		}
-		function chat_admin() {
-			document.sendForm.session_team_PK.value = "admin";
-			document.sendForm.action = "http://localhost:8080/test/chat/admin.do";
-			document.sendForm.submit();
-		}
-		function teamcreater(){
+		function teamcreater() {
+			alert('teamcreater');
 			document.sendFormRoomCreater.action = "http://localhost:8080/test/teamcreater.do";
 			document.sendFormRoomCreater.submit();
+		}
+		function Message(){
+			
 		}
 	</script>
 
 	<script>
 		$('#team_plus').click(function() {
+			$('#demo').show();
 			$('#demo').plainModal('open');
+		});
+		$('#team_search').click(function() {
+			$('#demo2').show();
+			$('#demo2').plainModal('open');
 		});
 
 		$('#session_team').keypress(function(e) {
@@ -396,6 +457,82 @@
 				return false;
 			}
 		});
+
+		/*
+		Please consider that the JS part isn't production ready at all, I just code it to show the concept of merging filters and titles together !
+		 */
+		$(document)
+				.ready(
+						function() {
+							$('#demo').hide();
+							$('#demo2').hide();
+							$('.filterable .btn-filter')
+									.click(
+											function() {
+												var $panel = $(this).parents(
+														'.filterable'), $filters = $panel
+														.find('.filters input'), $tbody = $panel
+														.find('.table tbody');
+												if ($filters.prop('disabled') == true) {
+													$filters.prop('disabled',
+															false);
+													$filters.first().focus();
+												} else {
+													$filters.val('').prop(
+															'disabled', true);
+													$tbody.find('.no-result')
+															.remove();
+													$tbody.find('tr').show();
+												}
+												$('#in').attr('disabled',true);
+											});
+
+							$('.filterable .filters input')
+									.keyup(
+											function(e) {
+												/* Ignore tab key */
+												var code = e.keyCode || e.which;
+												if (code == '9')
+													return;
+												/* Useful DOM data and selectors */
+												var $input = $(this), inputContent = $input
+														.val().toLowerCase(), $panel = $input
+														.parents('.filterable'), column = $panel
+														.find('.filters th')
+														.index(
+																$input
+																		.parents('th')), $table = $panel
+														.find('.table'), $rows = $table
+														.find('tbody tr');
+												/* Dirtiest filter function ever ;) */
+												var $filteredRows = $rows
+														.filter(function() {
+															var value = $(this)
+																	.find('td')
+																	.eq(column)
+																	.text()
+																	.toLowerCase();
+															return value
+																	.indexOf(inputContent) === -1;
+														});
+												/* Clean previous no-result if exist */
+												$table.find('tbody .no-result')
+														.remove();
+												/* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
+												$rows.show();
+												$filteredRows.hide();
+												/* Prepend no-result row if all rows are filtered */
+												if ($filteredRows.length === $rows.length) {
+													$table
+															.find('#t1')
+															.prepend(
+																	$('<tr class="no-result text-center"><td colspan="'
+																			+ $table
+																					.find('.filters th').length
+																			+ '">검색 결과를 찾을 수 없습니다</td></tr>'));
+												}
+											});
+						});
 	</script>
 </body>
 </html>

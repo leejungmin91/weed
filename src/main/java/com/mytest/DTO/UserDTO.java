@@ -8,7 +8,6 @@ public class UserDTO implements Serializable {
 	private String gender;
 	private String username;
 	private String fb_id;
-	private String roomPK;
 
 	public String getGender() {
 		return gender;
